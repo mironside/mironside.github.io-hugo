@@ -1,0 +1,8 @@
+baseurl = "http://mironside.com/"
+languageCode = "en-us"
+title = "mironside"
+pygmentsstyle = "vs"
+
+[params]
+  gravatar_id = "22c47048b750bb28fa094fe29483407e"
+  twitter_username = "mironside"
