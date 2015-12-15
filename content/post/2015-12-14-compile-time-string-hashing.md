@@ -1,10 +1,11 @@
 +++
 date = "2015-12-14T22:29:27-06:00"
-draft = true
 title = "C++11 Compile-Time String Hashing"
 +++
 
-We can write a simple djb string hashing function that can be called at runtime.
+Here is a simple, lightweight implementation of compile-time string hashing in C++11.
+
+I'll start with the basic djb hash function.  This function can be called at runtime to hash a string literal.
 
 {{< highlight cpp >}}
 uint32_t hash(const char *str)
@@ -18,16 +19,16 @@ uint32_t hash(const char *str)
 }
 {{< /highlight >}}
 
-C++11 added constexpr functions which can execute at compile-time but C++11 constexprs do not allow loops (C++14 does).  The djb function must be rewritten as recursive to satisfy the constexpr constraint.
+In C++11, `constexpr` can be used to denote that a function can be evaluated at compile time.  But `constexpr` also has certain constraints which disallow looping and multiple return statements.  hash can be rewritten as a recursive function to satisfy these `constexpr` constraints.
 
 {{< highlight cpp >}}
-inline constexpr uint32_t hash(const char *str, uint32_t hash=5381)
+constexpr uint32_t hash(const char *str, uint32_t hash=5381)
 {
     return *str == 0 ? hash : hash(str + 1, hash * 33 + *str);
 }
 {{< /highlight >}}
 
-The constexpr can now be called to hash a string literal.  However, assembly output shows the constexpr is still generating a runtime function call.
+Now the constexpr hash function can be called to hash a string literal.  This does not guaruntee it is evaluated at compile-time.  In fact, assembly output shows the constexpr still generates a runtime function call.
 
 {{< highlight cpp >}}
 uint32_t sid = hash("this is a string test!");
@@ -56,4 +57,4 @@ uint32_t sid = SID("this is a string test!");
 	mov	DWORD PTR sid$[rsp], 1910223762		; 71dbb392H
 {{< /highlight >}}
 
-The template forces the evaluation at compile-time leaving only the string hash literal compiled into the executable.
+This forces the hash function to be evaluated at compile-time leaving only the string hash value compiled into the executable.
