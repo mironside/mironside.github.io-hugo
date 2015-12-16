@@ -19,7 +19,7 @@ uint32_t djb(const char *str)
 }
 {{< /highlight >}}
 
-In C++11, `constexpr` can be used to denote that a function can be evaluated at compile time.  But `constexpr` also has certain constraints which disallow looping and multiple return statements.  hash can be rewritten as a recursive function to satisfy these `constexpr` constraints.
+In C++11, `constexpr` can be used to denote that a function can be evaluated at compile-time.  But `constexpr` also has certain constraints which disallow looping and multiple return statements.  The djb function can be rewritten as recursive to satisfy these `constexpr` constraints.
 
 {{< highlight cpp >}}
 constexpr uint32_t djb(const char *str, uint32_t value=5381)
@@ -28,7 +28,7 @@ constexpr uint32_t djb(const char *str, uint32_t value=5381)
 }
 {{< /highlight >}}
 
-Now the constexpr hash function can be called to hash a string literal.  This does not guaruntee it is evaluated at compile-time.  In fact, assembly output shows the constexpr still generates a runtime function call.
+The constexpr djb function can be called to hash a string literal but this does not guaruntee it is evaluated at compile-time.  In fact, assembly output shows the constexpr still generates a runtime function call.
 
 {{< highlight cpp >}}
 uint32_t sid = djb("this is a string test!");
@@ -57,7 +57,7 @@ uint32_t id = DJB("this is a string test!");
     mov DWORD PTR id$[rsp], 1910223762      ; 71dbb392H
 {{< /highlight >}}
 
-The hash function is evaluated at compile-time leaving only the hashed value compiled into the executable.
+The djb function is evaluated at compile-time leaving only the hashed value compiled into the executable.
 
 The compile-time hash construct works with any hash function that fits within the constraints of `constexpr`.  Below is the full code for both DJB and CRC32 compile-time hashes.
 
