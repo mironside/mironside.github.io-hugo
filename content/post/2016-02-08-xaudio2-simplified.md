@@ -16,6 +16,7 @@ XAudio2.h has changed and even broken through each version of Windows which make
 - Windows 8
   - XAudio2.h is in the Windows 8 Kit
   - Windows 8 includes XAudio2 dlls for all versions of XAudio2, up to XAudio2_8.dll
+  - XAudio2Create is a normal C linkage function that can be grabbed out of a dll
   - Windows 8 (and up) added a parameter to CreateMasteringVoice and removed a few functions from IXAudio2
 - Windows 10
   - XAudio2.h is in the Windows 10 Kit
