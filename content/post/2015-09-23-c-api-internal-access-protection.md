@@ -3,7 +3,9 @@ title = "C API Internal Access Protection"
 date = "2015-09-23T00:00:00-06:00"
 +++
 
-I like C style apis, they're simple and clean.  When I create an api I use an underscored prefix to group functions in the same api.
+Here's a way to add access protection to a C style set of functions.  I'm not saying this is a good idea (in fact, it is a chore to maintain).  This is just something I was thinking about while longing for a syntactical way to scope data to a given api.  For example, how file scope in a C source file is completely hidden (not just "private") and totally inaccessible outside the translation unit.
+
+I like C style apis, they're simple and clean to use.  To start, I prefer using an underscored prefix to group functions in the same api.
 
 ### C Time API
 {{< highlight c >}}
@@ -11,7 +13,7 @@ uint64_t Time_GetTicks();
 uint64_t Time_GetTickFrequency();
 {{< /highlight >}}
 
-In the source file I group api data in a static struct instance named with the same prefix.
+In the source file I group "private" api data in a static struct instance named with the same prefix.
 
 {{< highlight c >}}
 static struct Time_ {
